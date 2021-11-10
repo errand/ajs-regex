@@ -16,7 +16,8 @@
         "quotes": ["error", "single"],
         "linebreak-style": 0,
         "import/prefer-default-export": "off",
-        "no-unused-vars": "off"
+        "no-unused-vars": "off",
+        "max-len": "off"
     },
     "plugins": ["babel"],
     "parser": "babel-eslint"
