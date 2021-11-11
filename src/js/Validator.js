@@ -1,5 +1,5 @@
 /** @module Validator
- * Class validating input.
+ * Class validating input string.
  */
 export default class Validator {
   /**

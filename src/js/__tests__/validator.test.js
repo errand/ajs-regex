@@ -1,61 +1,54 @@
 /* eslint-disable quotes */
 import Validator from '../Validator';
 
-test('First argument should be an Object', () => {
-  expect(() => setWeaponDescription('obj')).toThrow();
+const validator = new Validator();
+
+test('Username should contain good characters', () => {
+  const userName = 'asdfa23sd-fa_sd1f';
+  expect(validator.validateUsername(userName)).toBeTruthy();
 });
 
-test('Object Character should have special property', () => {
-  const obj = {
-    name: 'мечник',
-    health: 10,
-    level: 2,
-    attack: 80,
-    defence: 40,
-  };
-  expect(() => setWeaponDescription(obj)).toThrow();
+test('Throw error if contain bad characters', () => {
+  const userName = 'as!dfasd-fa_sd1f';
+  expect(() => validator.validateUsername(userName)).toThrow();
 });
 
-test('Special should be returned', () => {
-  const character = {
-    name: 'Лучник',
-    type: 'Bowman',
-    health: 50,
-    level: 3,
-    attack: 40,
-    defence: 10,
-    special: [
-      {
-        id: 8,
-        name: 'Двойной выстрел',
-        icon: 'http://...',
-        description: 'Двойной выстрел наносит двойной урон',
-      },
-      {
-        id: 9,
-        name: 'Нокаутирующий удар',
-        icon: 'http://...',
-        // <- обратите внимание, описание "засекречено"
-      },
-    ],
-  };
+test('Throw error if contain bad characters', () => {
+  const userName = 'asdfasd@fa_sd1f';
+  expect(() => validator.validateUsername(userName)).toThrow();
+});
 
-  const expected = [
-    {
-      id: 8,
-      name: 'Двойной выстрел',
-      icon: 'http://...',
-      description: 'Двойной выстрел наносит двойной урон',
-    },
-    {
-      id: 9,
-      name: 'Нокаутирующий удар',
-      icon: 'http://...',
-      description: 'Описание недоступно',
-    },
-  ];
+test('Throw error if starts with number', () => {
+  const userName = '1asdfasdfa_sd1f';
+  expect(() => validator.validateUsername(userName)).toThrow();
+});
 
-  const received = setWeaponDescription(character);
+test('Throw error if starts with minus', () => {
+  const userName = '-asdfasdfa_sd1f';
+  expect(() => validator.validateUsername(userName)).toThrow();
+});
 
-  expect(received).toEqual(expected);
+test('Throw error if starts with _', () => {
+  const userName = '_asdfasdfa_sd1f';
+  expect(() => validator.validateUsername(userName)).toThrow();
+});
+
+test('Throw error if ends with _', () => {
+  const userName = 'asdfasdfa_sd1f_';
+  expect(() => validator.validateUsername(userName)).toThrow();
+});
+
+test('Throw error if ends with -', () => {
+  const userName = 'asdfasdfa_sd1f-';
+  expect(() => validator.validateUsername(userName)).toThrow();
+});
+
+test('Throw error if ends with number', () => {
+  const userName = 'asdfasdfa_sd1f3';
+  expect(() => validator.validateUsername(userName)).toThrow();
+});
+
+test('Throw error if contain 3 digits in a row', () => {
+  const userName = 'asdfasdf_333_sd1f';
+  expect(() => validator.validateUsername(userName)).toThrow();
 });
